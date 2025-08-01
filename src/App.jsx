@@ -6,15 +6,18 @@ import Cart from "../src/features/cart/Cart"
 // import CreateOrder from "../src/features/order/CreateOrder"
 import Menu , {Loader as MenuLoader} from "./features/menu/Menu"
 import AppLayout from "./ui/AppLayout"
+import Error from "./ui/Error"
 
 const router = createBrowserRouter([
   {
     element:<AppLayout/>,
+    errorElement: <Error/>,
+    
     children:
       [
         {path:"/" , element:<Home/>},
         {path:"/cart" , element:<Cart/>},
-        {path:"/menu" , element:<Menu/> , loader:MenuLoader},
+        {path:"/menu" , element:<Menu/> , loader:MenuLoader ,  errorElement: <Error/>,},
         // {path:"/order/new" , element:<CreateOrder/>},
         // {path:"/order/:orderId" , element:<OrderItem/>}
       ]
