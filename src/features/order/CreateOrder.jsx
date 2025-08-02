@@ -38,34 +38,36 @@ function CreateOrder() {
   const isSubmitting = navigation.state === "submitting"
 
   return (
-    <div>
-      <h2>Ready to order? Lets go!</h2>
+    <div className="w-full h-full flex items-center justify-center">
+          <div className="w-full  md:w-[650px] lg:w-[800px] px-4 md:border md:border-yellow-300 md:py-6 md:bg-stone-100 md:rounded-lg">
+      <h2 className="font-bold mb-6 text-lg">Ready to order? Lets go!</h2>
 
-      <Form method='POST'>
+      <Form method='POST' className="w-full md:w-[80%]">
         <div>
           <label>First Name</label>
-          <input type="text" name="customer" required />
+          <input type="text" name="customer" className="input" required />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input className="input" type="tel" name="phone" required />
           </div>
         </div>
         <p>{errors?.phone ? errors.phone : "" }</p>
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input className="input" type="text" name="address" required />
           </div>
         </div>
 
-        <div>
+        <div className="flex items-center gap-2">
           <input
             type="checkbox"
             name="priority"
             id="priority"
+            className="accent-yellow-500 h-6 w-6 focus-outline-none focus:ring-yellow-400 focus:ring-offset-2 "
             // value={withPriority}
             // onChange={(e) => setWithPriority(e.target.checked)}
           />
@@ -73,10 +75,11 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button disabled={isSubmitting}>{isSubmitting ? "submitting" : "new order"}</button>
+          <button className="mt-6 px-4 py-2 bg-yellow-500 rounded-full text-stone-700 focus:outline-none focus:ring-yellow-400 focus:ring-offset-2" disabled={isSubmitting}>{isSubmitting ? "submitting" : "new order"}</button>
         </div>
         <input type="hidden" name="cart" value={JSON.stringify(cart)}/>
       </Form>
+    </div>
     </div>
   );
 }
