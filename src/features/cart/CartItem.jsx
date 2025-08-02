@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import Button from "../../ui/Button";
 
+
 function CartItem({ item }) {
   const {  name, quantity, totalPrice } = item;
 

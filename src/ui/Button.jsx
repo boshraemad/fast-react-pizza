@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types";
 
-export default function Button({children , type , to , disabled }) {
+export default function Button({children , type , to , disabled , onClick }) {
 
    const base= 'inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed';
     const styles={
@@ -11,6 +11,12 @@ export default function Button({children , type , to , disabled }) {
     }
     if(to){
         return <Link to={to} className={styles[type]}>{children}</Link>
+    }
+
+    if(onClick){
+        return (
+            <button onClick={onClick} disabled={disabled} className={styles[type]}>{children}</button>
+           )
     }
   return (
    <button disabled={disabled} className={styles[type]}>{children}</button>
@@ -22,4 +28,5 @@ Button.propTypes={
     type: PropTypes.string,
     to: PropTypes.string,
     disabled: PropTypes.bool,
+    onClick:PropTypes.func
 }
