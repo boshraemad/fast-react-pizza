@@ -1,7 +1,7 @@
 // Test ID: IIDSAT
 import OrderItem from "./OrderItem"
-
-import { useLoaderData } from "react-router-dom";
+import { useEffect } from "react";
+import { useLoaderData , useFetcher } from "react-router-dom";
 import { getOrder } from "../../services/apiRestaurant";
 
 import {
@@ -24,6 +24,14 @@ function Order() {
     cart,
   } = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
+  
+  const fetcher = useFetcher();
+  useEffect(
+    function () {
+      if (!fetcher.data && fetcher.state === 'idle') fetcher.load('/menu');
+    },
+    [fetcher]
+  );
 
   return (
     <div className="px-4 py-6 space-y-8">
@@ -45,7 +53,7 @@ function Order() {
         <p className="text-xs text-stone-500">(Estimated delivery: {formatDate(estimatedDelivery)})</p>
       </div>
             <ul className="didvide-y-2 border-y divide-stone-200">
-              {cart.map((item)=><OrderItem item={item} key={item.id}/>)}
+              {cart.map((item)=><OrderItem item={item} key={item.id} ingredients={fetcher?.data?.find((el)=>el.id === item.pizzaId)?.ingredients ?? []} isLoading={fetcher.state === "loading"}/>)}
             </ul>
       <div className="space-y-2 bg-stone-200 px-6 py-5">
         <p className="text-sm font-medium text-stone-600">Price pizza: {formatCurrency(orderPrice)}</p>
