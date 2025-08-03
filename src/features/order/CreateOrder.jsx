@@ -6,6 +6,7 @@ import { useState } from "react";
 import store from "../../../src/store"
 import { formatCurrency } from "../../utils/helpers";
 import { fetchAddress } from "../user/userSlice";
+import Button from "../../ui/Button";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -21,17 +22,17 @@ function CreateOrder() {
   const errors = useActionData();
   const navigation=useNavigation();
   const isSubmitting = navigation.state === "submitting"
-  const username = useSelector((state)=>state.user.username);
+  const {username , status:loadingStatus , error:positionError , position , address} = useSelector((state)=>state.user);
   const totalPrice=useSelector(getTotalPrice);
   const priorityPrice = 5/100 * totalPrice;
   const totalCartPrice =  totalPrice + priorityPrice;
   const dispatch=useDispatch();
 
+  console.log(position , positionError)
   return (
     <div className="w-full h-full flex items-center justify-center">
           <div className="w-full  md:w-[650px] lg:w-[800px] px-4 md:border md:border-yellow-300 md:py-6 md:bg-stone-100 md:rounded-lg">
       <h2 className="font-bold mb-6 text-lg">Ready to order? Lets go!</h2>
-      <button onClick={()=>{dispatch(fetchAddress())}}>get position</button>
       <Form method='POST' className="w-full md:w-[80%]">
         <div>
           <label>First Name</label>
@@ -47,9 +48,15 @@ function CreateOrder() {
         <p>{errors?.phone ? errors.phone : "" }</p>
         <div>
           <label>Address</label>
-          <div>
-            <input className="input" type="text" name="address" required />
+          <div className="relative">
+            <input className="input" type="text" name="address" disabled={loadingStatus === "loading"} defaultValue={address} required />
+            { !position.latitude && !position.longitude && <span className="absolute right-[3px] top-[3px] md:top-[5px]">
+            <Button type="small" onClick={(e)=>{
+              e.preventDefault();
+              dispatch(fetchAddress())}} disabled={loadingStatus === "loading"} >get position</Button>
+            </span>}
           </div>
+          {positionError && <p className="px-4 py-2 mb-3 mt-3 bg-red-200 text-red-700 font-semibold rounded-lg ">{positionError}</p>}
         </div>
 
         <div className="flex items-center gap-2">
@@ -63,11 +70,21 @@ function CreateOrder() {
           />
           <label htmlFor="priority">Want to yo give your order priority?</label>
         </div>
-
+        
         <div>
           <button className="mt-6 px-4 py-2 bg-yellow-500 rounded-full text-stone-700 focus:outline-none focus:ring-yellow-400 focus:ring-offset-2" disabled={isSubmitting}>{isSubmitting ? "submitting" : `${withPriority ? formatCurrency(totalCartPrice) : formatCurrency(totalPrice)} place order`}</button>
         </div>
         <input type="hidden" name="cart" value={JSON.stringify(cart)}/>
+        <input
+            type="hidden"
+            name="position"
+            value={
+              position.longitude && position.latitude
+                ? `${position.latitude},${position.longitude}`
+                : ''
+            }
+          />
+
       </Form>
     </div>
     </div>
