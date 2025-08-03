@@ -3,6 +3,7 @@ import OrderItem from "./OrderItem"
 import { useEffect } from "react";
 import { useLoaderData , useFetcher } from "react-router-dom";
 import { getOrder } from "../../services/apiRestaurant";
+import UpdateOrder from "../../ui/UpdatePriority";
 
 import {
   calcMinutesLeft,
@@ -60,6 +61,7 @@ function Order() {
         {priority && <p>Price priority: {formatCurrency(priorityPrice)}</p>}
         <p className="text-sm font-bold text-stone-600 ">To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
       </div>
+      {!priority && <UpdateOrder order={order} />}
     </div>
   );
 }
