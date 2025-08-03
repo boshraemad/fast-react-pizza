@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import Button from "../../ui/Button";
-
+import DeleteItem from "../../ui/DeleteItem";
 
 function CartItem({ item }) {
-  const {  name, quantity, totalPrice } = item;
+  const { pizzaId , name, quantity, totalPrice } = item;
 
   return (
     <li className="py-3">
@@ -14,7 +14,7 @@ function CartItem({ item }) {
       <div className="flex items-center justify-between">
         <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
         <div className="flex gap-3">
-        <Button type="small">Delete</Button>
+        <DeleteItem pizzaId={pizzaId}/>
         <Button type="secondary">clear cart</Button>
         </div>
       </div>
