@@ -10,7 +10,7 @@ export default function AppLayout() {
 
   const isLoading = navigation.state === 'loading';
   return (
-    <div className="flex flex-col justify-between w-full min-h-screen bg-stone-100">
+    <div className="grid h-screen grid-rows-[auto_1fr_auto] bg-stone-100">
         {isLoading && <Loader/>}
         <Header/>
         <main className="w-full h-full">
