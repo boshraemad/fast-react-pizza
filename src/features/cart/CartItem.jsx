@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/helpers";
 import Button from "../../ui/Button";
 import DeleteItem from "../../ui/DeleteItem";
+import UpdateQuantity from "../../ui/UpdateQuantity";
 
 function CartItem({ item }) {
   const { pizzaId , name, quantity, totalPrice } = item;
@@ -15,6 +16,7 @@ function CartItem({ item }) {
         <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
         <div className="flex gap-3">
         <DeleteItem pizzaId={pizzaId}/>
+        <UpdateQuantity id={pizzaId}/>
         <Button type="secondary">clear cart</Button>
         </div>
       </div>
